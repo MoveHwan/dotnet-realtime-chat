@@ -28,6 +28,8 @@ namespace RealtimeChat.Services
                 throw new Exception("User already exists.");
             }
 
+            // Password는 원문 저장 금지
+            // BCrypt를 사용해 해시 후 저장
             var user = new User
             {
                 Name = request.Name,
@@ -47,8 +49,7 @@ namespace RealtimeChat.Services
                 return null;
             }
 
-            var isValidPassword =
-                BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
+            var isValidPassword = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
 
             if (!isValidPassword)
             {
@@ -57,6 +58,7 @@ namespace RealtimeChat.Services
 
             var accessToken = _jwtService.GenerateAccessToken(user);
 
+            // Access Token 만료 시 재발급을 위한 Refresh Token 생성
             var refreshToken = _jwtService.GenerateRefreshToken();
 
             _context.RefreshTokens.Add(new RefreshToken
@@ -78,19 +80,16 @@ namespace RealtimeChat.Services
 
         public async Task<AuthResponse?> RefreshTokenAsync(string refreshToken)
         {
-            var token =
-                await _userRepository.GetRefreshTokenAsync(refreshToken);
+            var token = await _userRepository.GetRefreshTokenAsync(refreshToken);
 
             if (token == null || token.ExpiresAt < DateTime.UtcNow)
             {
                 return null;
             }
 
-            var accessToken =
-                _jwtService.GenerateAccessToken(token.User);
+            var accessToken = _jwtService.GenerateAccessToken(token.User);
 
-            var newRefreshToken =
-                _jwtService.GenerateRefreshToken();
+            var newRefreshToken = _jwtService.GenerateRefreshToken();
 
             token.Token = newRefreshToken;
             token.ExpiresAt = DateTime.UtcNow.AddDays(7);
