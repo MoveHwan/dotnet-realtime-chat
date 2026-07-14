@@ -36,7 +36,7 @@ namespace RealtimeChat.Controllers
             var messageId = await _messageService.CreateAsync(request, userId);
 
             // 같은 채팅방에 참여한 사용자들에게 실시간 전송
-            /*await _hubContext.Clients
+            await _hubContext.Clients
                 .Group(request.ChatRoomId.ToString())
                 .SendAsync("ReceiveMessage", new
                 {
@@ -44,19 +44,7 @@ namespace RealtimeChat.Controllers
                     SenderId = userId,
                     Content = request.Content,
                     SentAt = DateTime.UtcNow
-                });*/
-            await _hubContext.Clients.All.SendAsync("ReceiveMessage", new
-            {
-
-                Id = messageId,
-
-                SenderId = userId,
-
-                Content = request.Content,
-
-                SentAt = DateTime.UtcNow
-
-            });
+                });
 
             return Ok(new{Id = messageId});
         }
