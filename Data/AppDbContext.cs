@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RealtimeChat.Models;
-using System.Collections.Generic;
+﻿using RealtimeChat.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace RealtimeChat.Data
 {
@@ -12,8 +11,7 @@ namespace RealtimeChat.Data
         }
 
         public DbSet<User> Users => Set<User>();
-        public DbSet<ChatRoom> ChatRooms => Set<ChatRoom>();
+
         public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
-        public DbSet<Message> Messages => Set<Message>();
     }
 }
