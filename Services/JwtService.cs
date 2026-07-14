@@ -20,18 +20,17 @@ namespace RealtimeChat.Services
         public string GenerateAccessToken(User user)
         {
             var claims = new List<Claim>
-        {
-            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Name, user.Name),
-            new(ClaimTypes.Role, user.Role)
-        };
+            {
+                // JWT 내부에 사용자 식별 정보를 저장
+                // 인증된 API 요청에서 현재 사용자를 조회할 때 사용
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(ClaimTypes.Name, user.Name),
+                new(ClaimTypes.Role, user.Role)
+            };
 
-            var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
 
-            var credentials = new SigningCredentials(
-                key,
-                SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
@@ -45,8 +44,7 @@ namespace RealtimeChat.Services
 
         public string GenerateRefreshToken()
         {
-            return Convert.ToBase64String(
-                RandomNumberGenerator.GetBytes(64));
+            return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
         }
     }
 }

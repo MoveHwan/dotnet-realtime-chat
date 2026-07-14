@@ -46,5 +46,79 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealtimeChat.Controllers.ChatRoomsController",
+    "Method": "Create",
+    "RelativePath": "api/ChatRooms",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "RealtimeChat.DTOs.ChatRooms.CreateChatRoomRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealtimeChat.Controllers.ChatRoomsController",
+    "Method": "GetAll",
+    "RelativePath": "api/ChatRooms",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealtimeChat.Controllers.ChatRoomsController",
+    "Method": "GetById",
+    "RelativePath": "api/ChatRooms/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealtimeChat.Controllers.MessageController",
+    "Method": "Create",
+    "RelativePath": "api/messages",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "RealtimeChat.DTOs.Messages.CreateMessageRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealtimeChat.Controllers.MessageController",
+    "Method": "GetMessages",
+    "RelativePath": "api/messages/room/{roomId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roomId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

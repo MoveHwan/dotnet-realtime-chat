@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RealtimeChat.Data;
+using RealtimeChat.Hubs;
 using RealtimeChat.Interfaces;
 using RealtimeChat.Repositories;
 using RealtimeChat.Services;
@@ -15,12 +16,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
 builder.Services.AddScoped<IJwtService, JwtService>();
-builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IChatRoomRepository, ChatRoomRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IChatRoomService, ChatRoomService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+
+// JWT 토큰 검증 설정
 builder.Services.AddAuthentication(
     JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -44,6 +50,8 @@ builder.Services.AddAuthentication(
     });
 
 builder.Services.AddControllers();
+
+builder.Services.AddSignalR();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -103,6 +111,9 @@ app.UseAuthorization();
 app.UseHttpsRedirection();
 
 app.MapControllers();
+
+// SignalR Hub 엔드포인트
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();
 
