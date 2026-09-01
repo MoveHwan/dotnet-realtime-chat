@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.SignalR;
 using RealtimeChat.DTOs.Messages;
 using RealtimeChat.Hubs;
 using RealtimeChat.Interfaces;
-using System.Security.Claims;
 
 namespace RealtimeChat.Controllers
 {
@@ -14,24 +13,20 @@ namespace RealtimeChat.Controllers
     {
         private readonly IMessageService _messageService;
         private readonly IHubContext<ChatHub> _hubContext;
+        private readonly IUserContext _userContext;
 
-        public MessageController(IMessageService messageService, IHubContext<ChatHub> hubContext)
+        public MessageController(IMessageService messageService, IHubContext<ChatHub> hubContext, IUserContext userContext)
         {
             _messageService = messageService;
             _hubContext = hubContext;
+            _userContext = userContext;
         }
 
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateMessageRequest request)
         {
-            // JWT에서 현재 로그인한 사용자 ID 조회
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (userIdClaim is null)
-                return Unauthorized();
-            
-            var userId = int.Parse(userIdClaim.Value);
+            var userId = _userContext.UserId;
 
             var messageId = await _messageService.CreateAsync(request, userId);
 
@@ -49,10 +44,13 @@ namespace RealtimeChat.Controllers
             return Ok(new{Id = messageId});
         }
 
+        [Authorize]
         [HttpGet("room/{roomId}")]
         public async Task<IActionResult> GetMessages(int roomId)
         {
-            var messages = await _messageService.GetByRoomIdAsync(roomId);
+            var userId = _userContext.UserId;
+
+            var messages = await _messageService.GetByRoomIdAsync(roomId, userId);
 
             return Ok(messages);
         }

@@ -9,5 +9,11 @@ namespace RealtimeChat.Interfaces
         Task<List<ChatRoomResponse>> GetAllAsync();
 
         Task<ChatRoomResponse?> GetByIdAsync(int id);
+
+        Task JoinAsync(int roomId, int userId);
+
+        Task LeaveAsync(int roomId, int userId);
+
+        Task<List<ChatRoomUserResponse>> GetUsersAsync(int roomId, int userId);
     }
 }

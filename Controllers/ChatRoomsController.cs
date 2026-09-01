@@ -11,10 +11,12 @@ namespace RealtimeChat.Controllers
     public class ChatRoomsController : ControllerBase
     {
         private readonly IChatRoomService _chatRoomService;
+        private readonly IUserContext _userContext;
 
-        public ChatRoomsController(IChatRoomService chatRoomService)
+        public ChatRoomsController(IChatRoomService chatRoomService, IUserContext userContext)
         {
             _chatRoomService = chatRoomService;
+            _userContext = userContext;
         }
 
         [Authorize]
@@ -56,5 +58,39 @@ namespace RealtimeChat.Controllers
             return Ok(chatRoom);
 
         }
+
+        [Authorize]
+        [HttpPost("{roomId}/join")]
+        public async Task<IActionResult> Join(int roomId)
+        {
+            var userId = _userContext.UserId;
+
+            await _chatRoomService.JoinAsync(roomId, userId);
+
+            return Ok(new{ Message = "채팅방에 참가했습니다." });
+        }
+
+        [Authorize]
+        [HttpDelete("{roomId}/leave")]
+        public async Task<IActionResult> Leave(int roomId)
+        {
+            var userId = _userContext.UserId;
+
+            await _chatRoomService.LeaveAsync(roomId, userId);
+
+            return Ok(new{ Message = "채팅방에서 나갔습니다." });
+        }
+
+        [Authorize]
+        [HttpGet("{roomId}/users")]
+        public async Task<IActionResult> GetUsers(int roomId)
+        {
+            var userId = _userContext.UserId;
+
+            var users = await _chatRoomService.GetUsersAsync(roomId, userId);
+
+            return Ok(users);
+        }
+
     }
 }

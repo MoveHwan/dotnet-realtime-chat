@@ -6,6 +6,6 @@ namespace RealtimeChat.Interfaces
     public interface IMessageService
     {
         Task<int> CreateAsync(CreateMessageRequest request, int userId);
-        Task<List<MessageResponse>> GetByRoomIdAsync(int roomId);
+        Task<List<MessageResponse>> GetByRoomIdAsync(int roomId, int userId);
     }
 }

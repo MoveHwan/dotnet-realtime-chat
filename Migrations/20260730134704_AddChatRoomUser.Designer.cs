@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RealtimeChat.Data;
@@ -11,9 +12,11 @@ using RealtimeChat.Data;
 namespace RealtimeChat.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260730134704_AddChatRoomUser")]
+    partial class AddChatRoomUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,24 +101,6 @@ namespace RealtimeChat.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("RealtimeChat.Models.MessageRead", b =>
-                {
-                    b.Property<int>("MessageId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("ReadAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("MessageId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("MessageRead");
-                });
-
             modelBuilder.Entity("RealtimeChat.Models.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
@@ -184,25 +169,6 @@ namespace RealtimeChat.Migrations
                         .IsRequired();
 
                     b.Navigation("ChatRoom");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("RealtimeChat.Models.MessageRead", b =>
-                {
-                    b.HasOne("RealtimeChat.Models.Message", "Message")
-                        .WithMany()
-                        .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RealtimeChat.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Message");
 
                     b.Navigation("User");
                 });
