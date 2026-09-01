@@ -58,6 +58,42 @@ SignalR Hub를 통해 같은 채팅방에 참여한 사용자에게 메시지를
 
 <br>
 
+## API Endpoints
+
+### Authentication
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | `/api/auth/register` | No | 회원가입 |
+| POST | `/api/auth/login` | No | 로그인 및 토큰 발급 |
+| POST | `/api/auth/refresh` | No | Refresh Token을 이용한 토큰 재발급 |
+
+### Chat Rooms
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | `/api/ChatRooms` | Yes | 채팅방 생성 |
+| GET | `/api/ChatRooms` | No | 채팅방 목록 조회 |
+| GET | `/api/ChatRooms/{id}` | No | 채팅방 상세 조회 |
+| POST | `/api/ChatRooms/{roomId}/join` | Yes | 채팅방 참여 |
+| DELETE | `/api/ChatRooms/{roomId}/leave` | Yes | 채팅방 나가기 |
+| GET | `/api/ChatRooms/{roomId}/users` | Yes | 채팅방 참여자 조회 |
+
+### Messages
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | `/api/messages` | Yes | 메시지 저장 및 실시간 전송 |
+| GET | `/api/messages/room/{roomId}` | Yes | 채팅방 메시지 조회 |
+
+### Message Read
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | `/api/messages/{messageId}/read` | Yes | 메시지 읽음 처리 |
+
+<br>
+
 ## Realtime Message Flow
 
 ```text

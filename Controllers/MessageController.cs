@@ -41,7 +41,7 @@ namespace RealtimeChat.Controllers
                     SentAt = DateTime.UtcNow
                 });
 
-            return Ok(new{Id = messageId});
+            return Ok(new { Id = messageId });
         }
 
         [Authorize]

@@ -23,16 +23,7 @@ namespace RealtimeChat.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateChatRoomRequest request)
         {
-            // JWT에서 현재 로그인한 사용자 ID 조회
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (userIdClaim is null)
-            {
-                return Unauthorized();
-            }
-                
-            
-            var userId = int.Parse(userIdClaim.Value);
+            var userId = _userContext.UserId;
 
             var chatRoomId = await _chatRoomService.CreateAsync(request, userId);
 
