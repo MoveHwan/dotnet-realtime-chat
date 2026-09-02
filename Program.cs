@@ -12,20 +12,8 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString =
-    builder.Configuration.GetConnectionString("DefaultConnection");
-
-Console.WriteLine(
-    $"ConnectionString exists: {!string.IsNullOrWhiteSpace(connectionString)}");
-
-Console.WriteLine(
-    $"Starts with Host=: {connectionString?.StartsWith("Host=")}");
-
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString));
-
-/*builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));*/
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 builder.Services.AddHttpContextAccessor();
@@ -135,12 +123,6 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    dbContext.Database.Migrate();
-}
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
