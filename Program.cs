@@ -12,8 +12,20 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString =
+    builder.Configuration.GetConnectionString("DefaultConnection");
+
+Console.WriteLine(
+    $"ConnectionString exists: {!string.IsNullOrWhiteSpace(connectionString)}");
+
+Console.WriteLine(
+    $"Starts with Host=: {connectionString?.StartsWith("Host=")}");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
+
+/*builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));*/
 
 
 builder.Services.AddHttpContextAccessor();
