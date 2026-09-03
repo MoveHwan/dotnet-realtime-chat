@@ -10,6 +10,16 @@ SignalR Hub를 통해 같은 채팅방에 참여한 사용자에게 메시지를
 
 <br>
 
+## Deploy
+
+- API Server: `https://realtimechat-bfwa.onrender.com`
+- Swagger: `https://realtimechat-bfwa.onrender.com/swagger/index.html`
+
+> Render Free 인스턴스를 사용하고 있어 일정 시간 요청이 없으면
+> 첫 요청 시 서버 시작에 시간이 걸릴 수 있습니다.
+
+<br>
+
 ## Tech Stack
 
 ![.NET](https://img.shields.io/badge/.NET_9-512BD4?style=flat&logo=dotnet&logoColor=white)
@@ -18,6 +28,8 @@ SignalR Hub를 통해 같은 채팅방에 참여한 사용자에게 메시지를
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-000000?style=flat&logo=jsonwebtokens&logoColor=white)
 ![SignalR](https://img.shields.io/badge/SignalR-512BD4?style=flat&logo=dotnet&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
+![Render](https://img.shields.io/badge/Render-46E3B7?style=flat&logo=render&logoColor=black)
 
 <br>
 
